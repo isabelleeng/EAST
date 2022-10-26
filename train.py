@@ -22,7 +22,7 @@ import data_processor
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--input_size', type=int, default=768) # input size for training of the network
-parser.add_argument('--batch_size', type=int, default=16) # batch size for training
+parser.add_argument('--batch_size', type=int, default=8) # batch size for training
 parser.add_argument('--nb_workers', type=int, default=4) # number of processes to spin up when using process based threading, as defined in https://keras.io/models/model/#fit_generator
 parser.add_argument('--init_learning_rate', type=float, default=0.0001) # initial learning rate
 parser.add_argument('--lr_decay_rate', type=float, default=0.94) # decay rate for the learning rate
