@@ -27,11 +27,11 @@ parser.add_argument('--nb_workers', type=int, default=4) # number of processes t
 parser.add_argument('--init_learning_rate', type=float, default=0.0001) # initial learning rate
 parser.add_argument('--lr_decay_rate', type=float, default=0.94) # decay rate for the learning rate
 parser.add_argument('--lr_decay_steps', type=int, default=130) # number of steps after which the learning rate is decayed by decay rate
-parser.add_argument('--max_epochs', type=int, default=25) # maximum number of epochs
+parser.add_argument('--max_epochs', type=int, default=35) # maximum number of epochs
 parser.add_argument('--gpu_list', type=str, default='0') # list of gpus to use
 parser.add_argument('--checkpoint_path', type=str, default='tmp\\model') # path to a directory to save model checkpoints during training
 parser.add_argument('--save_checkpoint_epochs', type=int, default=5) # period at which checkpoints are saved (defaults to every 10 epochs)
-parser.add_argument('--restore_model', type=str, default='')
+parser.add_argument('--restore_model', type=str, default='tmp\\model\\weights-25.h5')
 parser.add_argument('--training_data_path', type=str, default='data\\train') # path to training data
 parser.add_argument('--validation_data_path', type=str, default='data\\validation') # path to validation data
 parser.add_argument('--max_image_large_side', type=int, default=1280) # maximum size of the large side of a training image before cropping a patch for training
@@ -249,8 +249,10 @@ def main(argv=None):
     with open(FLAGS.checkpoint_path + '/model.json', 'w') as json_file:
         json_file.write(model_json)
 
-    history = parallel_model.fit_generator(train_data_generator, epochs=FLAGS.max_epochs, steps_per_epoch=train_samples_count/FLAGS.batch_size, workers=FLAGS.nb_workers, max_queue_size=10, callbacks=callbacks, verbose=1)
-    print(history.history)
+    # parallel_model.load_weights(FLAGS.restore_model)
+
+    history = parallel_model.fit_generator(train_data_generator, epochs=FLAGS.max_epochs, steps_per_epoch=train_samples_count/FLAGS.batch_size, workers=FLAGS.nb_workers, max_queue_size=10, callbacks=callbacks, verbose=1, initial_epoch=25)
+    #print(history.history)
 
     # east.model.save(FLAGS.checkpoint_path + '/model.h5')
     # east.model.save_weights(FLAGS.checkpoint_path + '/model.h5')
