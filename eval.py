@@ -12,7 +12,7 @@ parser.add_argument('--test_data_path', type=str, default='data\\test')
 parser.add_argument('--gpu_list', type=str, default='0')
 parser.add_argument('--model_path', type=str, default='tmp/model/model.json')
 parser.add_argument('--weights_path', type=str, default='weights\\weights-60.h5')
-parser.add_argument('--output_dir', type=str, default='tmp/eval/results/')
+parser.add_argument('--output_dir', type=str, default='tmp/eval/results/images')
 FLAGS = parser.parse_args()
 
 from model import *

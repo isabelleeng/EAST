@@ -6,7 +6,7 @@ import numpy as np
 def non_max_suppression(boxes, overlapThresh, probs):
 	# if there are no boxes, return an empty list
 	if len(boxes) == 0:
-		return []
+		return [], probs
 
 	# if the bounding boxes are integers, convert them to floats -- this
 	# is important since we'll be doing a bunch of divisions
@@ -65,4 +65,4 @@ def non_max_suppression(boxes, overlapThresh, probs):
 			np.where(overlap > overlapThresh)[0])))
 
 	# return only the bounding boxes that were picked
-	return boxes[pick].astype("int")
+	return boxes[pick].astype("int"), probs[pick]
