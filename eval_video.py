@@ -18,7 +18,7 @@ parser.add_argument('--gpu_list', type=str, default='0')
 parser.add_argument('--model_path', type=str, default='tmp/model/model.json')
 parser.add_argument('--weights_path', type=str, default='weights\\weights-60.h5')
 parser.add_argument('--output_dir', type=str, default='tmp/eval/results/video')
-parser.add_argument('--frame_no', type=int, default=67725) # the frame number where evaluation starts or continues, default 0
+parser.add_argument('--frame_no', type=int, default=0) # the frame number where evaluation starts or continues, default 0
 
 FLAGS = parser.parse_args()
 
@@ -153,7 +153,7 @@ def main(argv=None):
         timer['net'] = time.time() - start
 
         boxes, score, timer = detect(FLAGS.frame_no, score_map=score_map, geo_map=geo_map, timer=timer)
-        print('[Frame {}] : predict {:.0f}ms, restore {:.0f}ms, nms {:.0f}ms'.format(
+        print('[Frame {}] :\n predict {:.0f}ms, restore {:.0f}ms, nms {:.0f}ms'.format(
             FLAGS.frame_no, timer['net']*1000, timer['restore']*1000, timer['nms']*1000))
        
         if boxes is not None:
