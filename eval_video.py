@@ -16,7 +16,7 @@ parser.add_argument('--test_data_path', type=str, default='data\\test')
 parser.add_argument('--test_video_path', type=str, default='data\\video_test\\p0bmslzt-The_Tunnel-S01E10.mp4')
 parser.add_argument('--gpu_list', type=str, default='0')
 parser.add_argument('--model_path', type=str, default='tmp/model/model.json')
-parser.add_argument('--weights_path', type=str, default='weights\\weights-60.h5')
+parser.add_argument('--weights_path', type=str, default='tmp/model/weights-60.h5')
 parser.add_argument('--output_dir', type=str, default='tmp/eval/results/video')
 parser.add_argument('--frame_no', type=int, default=0) # the frame number where evaluation starts or continues, default 0
 
@@ -153,8 +153,7 @@ def main(argv=None):
         timer['net'] = time.time() - start
 
         boxes, score, timer = detect(FLAGS.frame_no, score_map=score_map, geo_map=geo_map, timer=timer)
-        print('[Frame {}] :\n predict {:.0f}ms, restore {:.0f}ms, nms {:.0f}ms'.format(
-            FLAGS.frame_no, timer['net']*1000, timer['restore']*1000, timer['nms']*1000))
+        
        
         if boxes is not None:
             boxes = boxes[:, :8].reshape((-1, 4, 2))
@@ -176,14 +175,16 @@ def main(argv=None):
                 
                 cv2.polylines(img[:, :, ::-1], [box.astype(np.int32).reshape((-1, 1, 2))], True, color=(255, 255, 0), thickness=2)
                 # show accuracy score of box
-                cv2.putText(img[:, :, ::-1], f'{str(score[i]*100)[:5]}%', (x,y-10), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=1 , color=(255, 0, 255), thickness=2)
+                #cv2.putText(img[:, :, ::-1], f'{str(score[i]*100)[:5]}%', (x,y-10), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=1 , color=(255, 0, 255), thickness=2)
            
             cv2.putText(img[:, :, ::-1], formattedTime, org=(100,100), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2 , color=(255, 255, 0), thickness=2)
             img_path = os.path.join(FLAGS.output_dir, f'frame_{FLAGS.frame_no}.jpg')
             cv2.imwrite(img_path, img[:, :, ::-1])
+            print('[Saved frame {}] :\n predict {:.0f}ms, restore {:.0f}ms, nms {:.0f}ms'.format(
+            FLAGS.frame_no, timer['net']*1000, timer['restore']*1000, timer['nms']*1000))
         
-        duration = time.time() - start_time
-        print('Timing: {:.1f}sec\n--------------'.format(duration))
+        # duration = time.time() - start_time
+        # print('Timing: {:.1f}sec\n--------------'.format(duration))
         FLAGS.frame_no += fps
     
     timeEnd = default_timer()
