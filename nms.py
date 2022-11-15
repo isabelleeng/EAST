@@ -65,4 +65,4 @@ def non_max_suppression(boxes, overlapThresh, probs):
 			np.where(overlap > overlapThresh)[0])))
 
 	# return only the bounding boxes that were picked
-	return boxes[pick].astype("int")
+	return boxes[pick].astype("int"), probs[pick]
