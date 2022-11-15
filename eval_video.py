@@ -9,15 +9,13 @@ from keras.models import model_from_json
 from nms import non_max_suppression
 import datetime
 
-
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--test_data_path', type=str, default='data\\test')
 parser.add_argument('--test_video_path', type=str, default='data\\video_test\\p0bmslzt-The_Tunnel-S01E10.mp4')
 parser.add_argument('--gpu_list', type=str, default='0')
-parser.add_argument('--model_path', type=str, default='tmp/model/model.json')
-parser.add_argument('--weights_path', type=str, default='tmp/model/weights-60.h5')
-parser.add_argument('--output_dir', type=str, default='tmp/eval/results/video')
+parser.add_argument('--model_path', type=str, default='tmp\\model\\model.json')
+parser.add_argument('--weights_path', type=str, default='tmp\\model\\weights-60.h5')
+parser.add_argument('--output_dir', type=str, default='tmp\\eval\\results\\video')
 parser.add_argument('--frame_no', type=int, default=0) # the frame number where evaluation starts or continues, default 0
 
 FLAGS = parser.parse_args()
@@ -27,7 +25,7 @@ from data_processor import restore_rectangle
 
 def load_model():
     #load trained model
-    json_file = open(os.path.join('/'.join(FLAGS.model_path.split('/')[0:-1]), 'model.json'), 'r')
+    json_file = open(os.path.join('\\'.join(FLAGS.model_path.split('\\')[0:-1]), 'model.json'), 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     model = model_from_json(loaded_model_json, custom_objects={'tf': tf, 'RESIZE_FACTOR': RESIZE_FACTOR})
@@ -180,8 +178,8 @@ def main(argv=None):
             cv2.putText(img[:, :, ::-1], formattedTime, org=(100,100), fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=2 , color=(255, 255, 0), thickness=2)
             img_path = os.path.join(FLAGS.output_dir, f'frame_{FLAGS.frame_no}.jpg')
             cv2.imwrite(img_path, img[:, :, ::-1])
-            print('[Saved frame {}] :\n predict {:.0f}ms, restore {:.0f}ms, nms {:.0f}ms'.format(
-            FLAGS.frame_no, timer['net']*1000, timer['restore']*1000, timer['nms']*1000))
+            print('Saved frame {} to {}:\n (predict {:.0f}ms, restore {:.0f}ms, nms {:.0f}ms)'.format(
+            FLAGS.frame_no, img_path, timer['net']*1000, timer['restore']*1000, timer['nms']*1000))
         
         # duration = time.time() - start_time
         # print('Timing: {:.1f}sec\n--------------'.format(duration))
