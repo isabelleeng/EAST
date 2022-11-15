@@ -12,6 +12,7 @@ The original paper by Zhou et al. is available on [arxiv](https://arxiv.org/abs/
     + Uses AdamW optimizer instead of the original Adam
 
 The implementation of AdamW optimizer is borrowed from [this repository](https://github.com/shaoanlu/AdamW-and-SGDW).
+The implementation of AdamW optimizer is borrowed from [this repository](https://github.com/shaoanlu/AdamW-and-SGDW).
 
 The code should run under both Python 2 and Python 3.
 
@@ -56,14 +57,3 @@ The images you want to classify have to be in one directory, whose path you have
 ```
 python eval.py --gpu_list=0 --test_data_path=../data/ICDAR2015/test/ --model_path=tmp/icdar2015_east_resnet50/model_XXX.h5 --output_dir=tmp/icdar2015_east_resnet50/eval/
 ```
-
-### Detection examples
-![image_1](examples/img_12.jpg)
-![image_2](examples/img_13.jpg)
-![image_3](examples/img_14.jpg)
-![image_4](examples/img_15.jpg)
-![image_5](examples/img_28.jpg)
-![image_6](examples/img_29.jpg)
-![image_7](examples/img_33.jpg)
-![image_8](examples/img_37.jpg)
-![image_9](examples/img_42.jpg)

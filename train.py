@@ -256,8 +256,6 @@ def main(argv=None):
         json_file.write(model_json)
 
     history = parallel_model.fit_generator(train_data_generator, epochs=FLAGS.max_epochs, steps_per_epoch=train_samples_count/FLAGS.batch_size, workers=FLAGS.nb_workers, max_queue_size=10, callbacks=callbacks, verbose=1)
-    # print(history.history)
-
 
 if __name__ == '__main__':
     main()
