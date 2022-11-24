@@ -625,13 +625,9 @@ class threadsafe_iter:
     def __iter__(self):
         return self
 
-    def __next__(self): # Python 3
+    def __next__(self):
         with self.lock:
             return next(self.it)
-
-    def next(self): # Python 2
-        with self.lock:
-            return self.it.next()
 
 def threadsafe_generator(f):
     """A decorator that takes a generator function and makes it thread-safe.

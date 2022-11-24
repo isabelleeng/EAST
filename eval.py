@@ -11,10 +11,10 @@ import datetime
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--test_data_path', type=str, default='data\\test')
-parser.add_argument('--video_path', type=str, default='data\\video_test\\The_Tunnel-S01E10.mp4')
+parser.add_argument('--video_path', type=str, default='')
 parser.add_argument('--gpu_list', type=str, default='0')
-parser.add_argument('--model_path', type=str, default='tmp\\model\\model.json')
-parser.add_argument('--weights_path', type=str, default='tmp\\model\\weights-60.h5')
+parser.add_argument('--model_path', type=str, default='model\\model.json')
+parser.add_argument('--weights_path', type=str, default='model\\weights-60.h5')
 parser.add_argument('--output_dir', type=str, default='tmp\\eval\\results')
 parser.add_argument('--frame_no', type=int, default=0) # the frame number where evaluation starts or continues, default 0
 
@@ -24,7 +24,6 @@ from model import *
 from data_processor import restore_rectangle
 
 def load_model():
-    #load trained model
     json_file = open(os.path.join('\\'.join(FLAGS.model_path.split('\\')[0:-1]), 'model.json'), 'r')
     loaded_model_json = json_file.read()
     json_file.close()
@@ -97,8 +96,6 @@ def detect(frame, score_map, geo_map, timer, score_map_thresh=0.99, box_thresh=0
     start = time.time()
     boxes, accuracy = non_max_suppression(boxes.astype(np.float64), nms_thres, boxes[:, 8])
     timer['nms'] = time.time() - start
-    # print(f'Frame {frame}:\n{text_box_restored.shape[0]} boxes before nms\n{len(boxes)} boxes after nms\n----------------')
-
 
     if len(boxes) == 0:
         return None, None, timer
@@ -123,12 +120,22 @@ def main(argv=None):
         if e.errno != 17:
             raise
 
-    model = load_model()
+    while True:
+        video_path = input("Insert video path: ")
+        if '"' in video:
+            video = video_path.translate({ord('"'): None})
+        validPath = os.path.exists(video)
+        if validPath == True:
+            break
+        else:
+            print('Not valid path. Try again.')
 
-    video = FLAGS.video_path
+    # video = FLAGS.video_path
     cap = cv2.VideoCapture(video)
     fps = int(cap.get(cv2.CAP_PROP_FPS))
-
+    
+    model = load_model()
+    
     print('Scanning...')
     timeStart = default_timer()
     while True:

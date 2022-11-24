@@ -33,7 +33,7 @@ parser.add_argument('--lr_decay_rate', type=float, default=0.94) # decay rate fo
 parser.add_argument('--lr_decay_steps', type=int, default=130) # number of steps after which the learning rate is decayed by decay rate
 parser.add_argument('--max_epochs', type=int, default=60) # maximum number of epochs
 parser.add_argument('--gpu_list', type=str, default='0') # list of gpus to use
-parser.add_argument('--checkpoint_path', type=str, default='tmp\\model') # path to a directory to save model checkpoints during training
+parser.add_argument('--checkpoint_path', type=str, default='model') # path to a directory to save model checkpoints during training
 parser.add_argument('--save_checkpoint_epochs', type=int, default=5) # period at which checkpoints are saved (defaults to every 10 epochs)
 parser.add_argument('--restore_model', type=str, default='')
 parser.add_argument('--training_data_path', type=str, default='data\\train') # path to training data

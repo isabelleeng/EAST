@@ -111,3 +111,4 @@ static/results
 .vscode/settings.json
 data/video_test
 tmp/eval/results
+model/weights-60.h5
