@@ -122,16 +122,17 @@ def main(argv=None):
 
     while True:
         video_path = input("Insert video path: ")
-        if '"' in video:
-            video = video_path.translate({ord('"'): None})
-        validPath = os.path.exists(video)
-        if validPath == True:
+        if '"' in video_path:
+                video_path = video_path.translate({ord('"'): None})
+        validPath = os.path.exists(video_path)
+        file_extension = video_path.split('.')[-1]
+        if validPath == True and file_extension == "mp4":
             break
         else:
-            print('Not valid path. Try again.')
+            print('Not a valid path. Try again.')
 
     # video = FLAGS.video_path
-    cap = cv2.VideoCapture(video)
+    cap = cv2.VideoCapture(video_path)
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     
     model = load_model()
